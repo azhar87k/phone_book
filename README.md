@@ -22,7 +22,7 @@ Deployment Instructions
 **2. Create & load Database**
 - Create the database with name 'phone_book'
 - Load the database dump from the file to mysql
-- You can find it in location app/Resources/sql/db.sql
+- You can find it in location app/Resources/sql/db.sql (https://github.com/azhar87k/phone_book/blob/master/app/Resources/sql/db.sql)
 
 **3. Get Composer**
 - Download the composer locally or globally, see https://getcomposer.org/download/
