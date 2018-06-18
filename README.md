@@ -1,83 +1,107 @@
-Symfony Standard Edition
+Phone Book
 ========================
+This application has been built using symfony 3.4 LS, dcotrine is used as DBAL and front end technologies include twig, css, html5, javascripting.
 
-**WARNING**: This distribution does not support Symfony 4. See the
-[Installing & Setting up the Symfony Framework][15] page to find a replacement
-that fits you best.
+**Note**: I did not spend too much time on front-end, instead I focused on back-end e.g. structure of code, validation of 'canadian phone numbers' 
+and unit-tests as test is for back-end developer. 
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Deployment Instructions
+--------------
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+**Instructions that would follow are tested on**
+- Ubuntu 16.04.4 LTS
+- PHP5.6 (Because PHP 5 was metioned in requiremnt of the task)
+- Apache/2.4  
+- Server version: 5.5.53-log MySQL Community Server (GPL)
 
+
+**1. Clone the repository or extract the source**
+- Clone the repository `git clone https://github.com/azhar87k/phone_book.git` OR
+- Extract the code to desired location
+
+**2. Create & load Database**
+- Create the database with name 'phone_book'
+- Load the database dump from the file to mysql
+- You can find it in location app/Resources/sql/db.sql
+
+**3. Get Composer**
+- Download the composer locally or globally, see https://getcomposer.org/download/
+
+**4. Install using composer**
+- Run composer install
+```
+composer install
+```
+- It will prompt for databse credential, provide database host, port ,password etc as per your settings.
+- For database name you can use 'phone_book' or whatever was cerated in step 2.
+- You can leae rest of the options empty
+> You can always change the credentails in 'app/config/parameters.yml'
+
+**4. Apache Setup**
+- Setup the server, following is an example of minimul seeting that you need to run the app
+> Adjust the following depending on your enviornment / apache2 version
+
+```
+<VirtualHost *:80>
+    ServerName <servername.com>
+    ServerAlias <alias if you want>
+
+    DocumentRoot /path/to/phone_book/web
+    <Directory /path/to/phone_book/web>
+        AllowOverride All
+        #Order Allow,Deny
+        # apcahe 2.4
+        Require all granted
+        Allow from All
+    </Directory>
+
+</VirtualHost>
+```
+
+**5. Permissions**
+- One important Symfony requirement is that the var directory must be writable both by the web server and the command line user.
+- For details you can visit http://symfony.com/doc/3.4/setup/file_permissions.html and set them up as per your enviornment.
+
+- On my system I have support for `setfacl`, so you can run the following if you have also have this
+
+- Go inside the project root dir and run
+
+````
+ rm -rf var/cache/*
+ rm -rf var/logs/*
 
  HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
 
  sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
  sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+ ````
  
-What's inside?
---------------
+ 
+**5. Prepare Prod Enviornment**
 
-The Symfony Standard Edition is configured with the following defaults:
+````
+php bin/console cache:clear --env=prod
+php bin/console doctrine:schema:update --force --dump-sql
+php bin/console assets:install --env=prod
+php bin/console cache:warmup --env=prod
+php bin/console assetic:dump --env=prod --no-debug
+ ````
+- After running above, you should be able to access the application by path http://yourserver.com/
 
-  * An AppBundle you can use to start coding;
+**6. Prepare Dev Enviornment**
 
-  * Twig as the only configured template engine;
+````
+php bin/console cache:clear --env=dev
+php bin/console doctrine:schema:update --force --dump-sql
+php bin/console assets:install --env=dev
+php bin/console cache:warmup --env=dev
+php bin/console assetic:dump --env=dev --no-debug
+ ````
+- After running above, you should be able to access the application in dev mode by path http://yourserver.com/app_dev.php/
 
-  * Doctrine ORM/DBAL;
+**7. Functional Tests**
 
-  * Swiftmailer;
-
-  * Annotations enabled for everything.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
-
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
-[15]: https://symfony.com/doc/current/setup.html
+- You can run tests by following command
+````
+php ./vendor/bin/simple-phpunit tests/AppBundle/
+````

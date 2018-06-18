@@ -47,17 +47,6 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ],
-        "permissions": [
-            "mkdir -p var/cache/",
-            "mkdir -p var/logs/",
-            "mkdir -p var/sessions/",
-            "chown -R projx:www-pub var/cache",
-            "chown -R projx:www-pub var/logs",
-            "chown -R projx:www-pub var/sessions",
-            "chmod 770 var/cache/",
-            "chmod 770 var/logs/",
-            "chmod 770 var/sessions/"
         ]
     },
     "config": {
