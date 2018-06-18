@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Phone Book{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets
+            'bundles/app/css/style.css'
+            'bundles/app/css/vendor/bootstrap.min.css'
+            'bundles/app/css/vendor/bootstrap-grid.min.css'
+            'bundles/app/css/vendor/datatables.min.css'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+<div class="container">
+<div class="header row">
+    <div class="col-sm-12">
+    <a href="{{path('home')}}" class="logo"><img src="http://www.pslgroup.com/sites/all/themes/pslgroup/logo.png" alt="P/S/L">
+    Phone Book
+    </a>
+
+   {% block header %}
+    <dilv class="header-right">
+        <a class="active" href="{{ path('home')}} ">Home</a>
+        <a href="{{path('phone_book_contact_add')}}">Add Contact</a>
+    </dilv>
+    {% endblock %}
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+{% block javascripts %}
+    {% javascripts output='js/compiled/vendor.js'
+        '@AppBundle/Resources/public/js/vendor/jquery.min.js'
+        '@AppBundle/Resources/public/js/vendor/bootstrap.min.js'
+        '@AppBundle/Resources/public/js/vendor/bootstrap.bundle.min.js'
+        '@AppBundle/Resources/public/js/vendor/datatables.min.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts output='js/compiled/app.js'
+        '@AppBundle/Resources/public/js/pages/contact_list.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}
+</body>
+</html>

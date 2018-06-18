@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+   {% block header %}
+       <div class="header-right">
+           <a href="{{ path('home') }} ">Home</a>
+           <a class="active" href="{{ path('phone_book_contact_add') }}">Add Contact</a>
+       </div>
+   {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 content">
+            {% form_theme form 'bootstrap_4_layout.html.twig' %}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'name': 'form_add_contact'}}) }}
+            {{ form_errors(form) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.phoneType) }}
+            {{ form_row(form.number) }}
+            <input type="submit" value="Submit">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
