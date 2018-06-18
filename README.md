@@ -3,7 +3,7 @@ Phone Book
 This application has been built using symfony 3.4 LST, dcotrine is used as DBAL and front end technologies include twig, css, html5, javascripting.
 
 **Note**: I did not spend too much time on front-end, instead I focused on back-end e.g. structure of code, validation of 'canadian phone numbers' 
-and unit-tests as test is for back-end developer. 
+and unit-tests as this is meant for back-end developer. 
 
 Deployment Instructions
 --------------
