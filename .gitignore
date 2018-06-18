@@ -17,6 +17,7 @@
 /web/bundles/
 composer.phar
 /web/js/compiled/
+/web/css/
 
 .idea/
 
