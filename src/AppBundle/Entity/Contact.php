@@ -45,7 +45,7 @@ class Contact
     private $phoneType;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(type="phone_number")
      */
